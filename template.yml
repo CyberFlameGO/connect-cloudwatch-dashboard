@@ -1,0 +1,98 @@
+# Copyright 2023 - TTEC Digital (VoiceFoundry)
+
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+
+#        http://www.apache.org/licenses/LICENSE-2.0
+
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+#====================================================================================================
+# Description : Creates an Cloudwatch Dashboard for Amazon Connect for infrastructure management
+# Author      : TTEC Digital - AWS Practice (@karl-mentzer-vf) & AWS (@aurelienaws)
+# Date        : 21/11/2023
+# Version     : 1.7.6
+#====================================================================================================
+
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: "Creates an Cloudwatch Dashboard for Amazon Connect for infrastructure management"
+
+#############################################################
+######################### METADATA ##########################
+#############################################################
+Metadata:
+  AWS::ServerlessRepo::Application:
+    Name: amazon-connect-cloudwatch-dashboard
+    Description: TTEC Digital developed CloudWatch Dashboard for Amazon Connect
+    Author: TTEC Digital - AWS Practice
+    SpdxLicenseId: MIT
+    LicenseUrl: LICENSE
+    SourceCodeUrl: https://github.com/voicefoundry-cloud-public/connect-cloudwatch-dashboard
+    ReadmeUrl: README.md
+    Labels:
+      ["connect", "iam-role", "open-source"]
+    SemanticVersion: 1.0.0
+Parameters:
+  DashboardName:
+    Type: String
+    Description: "The name for the dashboard to create in Cloudwatch"
+  InstanceId:
+    Type: String
+    Description: "The ID of the Amazon Connect instance we want to create the dashboard for"
+Resources:
+  TheLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: "InlineConnectPolicy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: 
+                  - connect:Describe*
+                  - connect:List*
+                Resource: "*"
+        - PolicyName: "InlineCloudwatchPolicy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: 
+                - cloudwatch:PutDashboard
+                - cloudwatch:DeleteDashboards
+                Resource: "*"
+  TheLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Description: "Generates (to S3) the CloudFormation template to create Amazon Connect dashboard for instance."
+      Handler: index.handler
+      Runtime: nodejs18.x
+      Role: !GetAtt "TheLambdaRole.Arn"
+      FunctionName: !Sub "amazonConnectDashboard_${DashboardName}"
+      Environment:
+        Variables:
+          DASHBOARD_NAME: !Ref DashboardName
+          INSTANCE_ID: !Ref InstanceId
+          REGION: !Ref "AWS::Region"
+      Timeout: 12
+      CodeUri: ./code//index.zip
+  LambdaTrigger:
+    Type: AWS::CloudFormation::CustomResource
+    Version: "1.0"
+    Properties:
+      ServiceToken: !GetAtt TheLambda.Arn

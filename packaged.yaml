@@ -1,0 +1,95 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Creates an Cloudwatch Dashboard for Amazon Connect for infrastructure
+  management
+Metadata:
+  AWS::ServerlessRepo::Application:
+    Name: amazon-connect-cloudwatch-dashboard
+    Description: TTEC Digital developed CloudWatch Dashboard for Amazon Connect
+    Author: TTEC Digital - AWS Practice
+    SpdxLicenseId: MIT
+    LicenseUrl: s3://vf-sc-templates-ap-southeast-2-699520165046/9f2b51d34175cd1080a68f8980415a91
+    SourceCodeUrl: https://github.com/voicefoundry-cloud-public/connect-cloudwatch-dashboard
+    ReadmeUrl: s3://vf-sc-templates-ap-southeast-2-699520165046/f15a7c965ccf09ab900ec7e540b46e6d
+    Labels:
+    - connect
+    - iam-role
+    - open-source
+    SemanticVersion: 1.0.0
+Parameters:
+  DashboardName:
+    Type: String
+    Description: The name for the dashboard to create in Cloudwatch
+  InstanceId:
+    Type: String
+    Description: The ID of the Amazon Connect instance we want to create the dashboard
+      for
+Resources:
+  TheLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: lambda.amazonaws.com
+          Action: sts:AssumeRole
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+      - PolicyName: InlineConnectPolicy
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - connect:Describe*
+            - connect:List*
+            Resource: '*'
+      - PolicyName: InlineCloudwatchPolicy
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - cloudwatch:PutDashboard
+            - cloudwatch:DeleteDashboards
+            Resource: '*'
+    Metadata:
+      SamResourceId: TheLambdaRole
+  TheLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Description: Generates (to S3) the CloudFormation template to create Amazon
+        Connect dashboard for instance.
+      Handler: index.handler
+      Runtime: nodejs18.x
+      Role:
+        Fn::GetAtt:
+        - TheLambdaRole
+        - Arn
+      FunctionName:
+        Fn::Sub: amazonConnectDashboard_${DashboardName}
+      Environment:
+        Variables:
+          DASHBOARD_NAME:
+            Ref: DashboardName
+          INSTANCE_ID:
+            Ref: InstanceId
+          REGION:
+            Ref: AWS::Region
+      Timeout: 12
+      CodeUri: s3://vf-sc-templates-ap-southeast-2-699520165046/168e7c77469bbf5117728afc4440f0e4
+    Metadata:
+      SamResourceId: TheLambda
+  LambdaTrigger:
+    Type: AWS::CloudFormation::CustomResource
+    Version: '1.0'
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+        - TheLambda
+        - Arn
+    Metadata:
+      SamResourceId: LambdaTrigger
