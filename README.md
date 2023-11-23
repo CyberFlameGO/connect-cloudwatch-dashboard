@@ -1,30 +1,41 @@
 ## Purpose
-This project's intent is to automate the creation and deployment of a Cloudwatch dashboard to monitor critical metrics for an Amazon Connect instance.
+
+This project's intent is to automate the creation and deployment of a Cloudwatch dashboard to monitor critical metrics for an Amazon Connect instance. CloudWatch Dashboards provide AWS Administrators with a visualisation reference around the Amazon Connect instance performance.
 
 It is made of two parts:
-- a Cloudformation stack deployed from a SAM template published to AWS Serverless Application Repo.
-- a Lambda
+    - a Cloudformation stack (deployed from a SAM template that has been published to AWS Serverless Application Repo).
+    - a Lambda Function.
 
-The SAR applicaiton will deploy a CloudFormation stack that will create the dashboard by triggering the Lambda as a custom resource. The deletion of the dashboard is also handled when the stack is deleted.
+The SAR application will deploy a CloudFormation stack that will create the dashboard by triggering the Lambda as a custom resource. The deletion of the dashboard is also handled when the stack is deleted.
 
-The Lamdba gathers the Amazon Connect instance necessary objects (queues, contact flows, etc...) and responds to Cloudformation events to create the relevant dashboard.
+The Lambda Function gathers the Amazon Connect instance necessary objects (queues, contact flows, etc...) and responds to Cloudformation events to create the relevant dashboard.
 
 The dashboard created allows to monitor:
-- Concurrent Calls (%)
-- Concurrent Calls (number)
-- Throttled Calls (number)
-- Contact Flow Errors
-- Contact Flows Fatal Errors
-- Longest Queue Wait Time
-- Packet Loss Rate
-- Calls Per Interval
-- Call Recording Upload Error
-- Misconfigured Phone Numbers
-- Calls Breaching Quota
+    - Concurrent Calls (%)
+    - Concurrent Calls (number)
+    - Throttled Calls (number)
+    - Contact Flow Errors
+    - Contact Flows Fatal Errors
+    - Longest Queue Wait Time
+    - Packet Loss Rate
+    - Calls Per Interval
+    - Call Recording Upload Error
+    - Misconfigured Phone Numbers
+    - Calls Breaching Quota
 
-## Example Dashboard
+## Example Dashboards
 
-![Example Cloudwatch Dashboard](images/example-dashboard.jpeg)
+### Infrastructure Dashboard
+
+This dashboard provides information from an "infrastructure" view along with possible errors within the Amazon Connect flows.
+
+![Infrastructure monitoring Dashboard](images/example-dashboard.jpeg)
+
+### Capacity Planning Dashboard
+
+This dashboard provides information for capacity planning around active Calls / Chats / Tasks and the a fixed weekly view of the Max Interactions by channel.
+
+![Capacity Planning Dashboard](images/capacity-planning.jpg)
 
 ## How-to use
 
@@ -36,4 +47,3 @@ The dashboard created allows to monitor:
 
 - @karl-mentzer-vf
 - @aurelienaws
-
