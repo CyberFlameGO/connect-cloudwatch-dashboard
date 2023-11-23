@@ -6,10 +6,10 @@ Metadata:
   AWS::ServerlessRepo::Application:
     Name: amazon-connect-cloudwatch-dashboard
     Description: TTEC Digital developed CloudWatch Dashboard for Amazon Connect
-    Author: TTEC Digital - AWS Practice AU
+    Author: TTEC Digital - AWS Practice
     SpdxLicenseId: MIT
     LicenseUrl: ../../LICENSE
-    SourceCodeUrl: https://github.com/voicefoundry-cloud-product/connect-cloudwatch-dashboard
+    SourceCodeUrl: https://github.com/voicefoundry-cloud-public/connect-cloudwatch-dashboard
     ReadmeUrl: ../../README.md
     Labels:
     - connect
