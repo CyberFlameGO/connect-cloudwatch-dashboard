@@ -22,6 +22,10 @@ The dashboard created allows to monitor:
 - Misconfigured Phone Numbers
 - Calls Breaching Quota
 
+## Example Dashboard
+
+![Example Cloudwatch Dashboard](images/example-dashboard.jpeg)
+
 ## How-to use
 
 - Go to AWS Serverless Application Repository and search for "amazon-connect-cloudwatch-dashboard" or click [here](https://ap-southeast-2.console.aws.amazon.com/serverlessrepo/home?region=ap-southeast-2#/published-applications/arn:aws:serverlessrepo:ap-southeast-2:699520165046:applications~amazon-connect-cloudwatch-dashboard)
