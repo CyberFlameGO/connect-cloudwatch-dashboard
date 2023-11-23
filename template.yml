@@ -14,8 +14,8 @@
 #====================================================================================================
 # Description : Creates an Cloudwatch Dashboard for Amazon Connect for infrastructure management
 # Author      : TTEC Digital - AWS Practice (@karl-mentzer-vf) & AWS (@aurelienaws)
-# Date        : 21/11/2023
-# Version     : 1.7.6
+# Date        : 23/11/2023
+# Version     : 1.1.0
 #====================================================================================================
 
 AWSTemplateFormatVersion: "2010-09-09"
@@ -35,8 +35,8 @@ Metadata:
     SourceCodeUrl: https://github.com/voicefoundry-cloud-public/connect-cloudwatch-dashboard
     ReadmeUrl: README.md
     Labels:
-      ["connect", "iam-role", "open-source"]
-    SemanticVersion: 1.0.0
+      ["connect", "iam-role", "open-source","cloudwatch-dashboard"]
+    SemanticVersion: 1.1.0
 Parameters:
   DashboardName:
     Type: String
