@@ -4,7 +4,7 @@ Description: Creates an Cloudwatch Dashboard for Amazon Connect for infrastructu
   management
 Metadata:
   AWS::ServerlessRepo::Application:
-    Name: amazon-connect-cloudwatch-dashboard-dual
+    Name: amazon-connect-cloudwatch-dashboard
     Description: TTEC Digital developed CloudWatch Dashboard for Amazon Connect
     Author: TTEC Digital - AWS Practice
     SpdxLicenseId: MIT
