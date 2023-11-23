@@ -15,7 +15,8 @@ Metadata:
     - connect
     - iam-role
     - open-source
-    SemanticVersion: 1.0.0
+    - cloudwatch-dashboard
+    SemanticVersion: 1.1.0
 Parameters:
   DashboardName:
     Type: String
