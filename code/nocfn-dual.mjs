@@ -476,6 +476,7 @@ export const handler = async (event) => {
     );
   }
 
+
   async function createOpsDashboard() {
     const dashboardOpsBody = {
       widgets: [
@@ -674,74 +675,72 @@ export const handler = async (event) => {
       await send(event, context, "FAILED");
     }
 
-    return;
+  return;
 
-    /**
-     * A re-implementation of send() from cfn-response module to make sure we don't rely on importing cfn-response.
-     * @param {*} event
-     * @param {*} context
-     * @param {*} responseStatus
-     * @param {*} responseData
-     * @param {*} physicalResourceId
-     * @param {*} noEcho
-     */
-    async function send(
-      event,
-      context,
-      responseStatus,
-      responseData,
-      physicalResourceId,
-      noEcho
-    ) {
-      var responseBody = JSON.stringify({
-        Status: responseStatus,
-        Reason:
-          "See the details in CloudWatch Log Stream: " + context.logStreamName,
-        PhysicalResourceId: physicalResourceId || context.logStreamName,
-        StackId: event.StackId,
-        RequestId: event.RequestId,
-        LogicalResourceId: event.LogicalResourceId,
-        NoEcho: noEcho || false,
-        Data: responseData,
-      });
+  /**
+   * A re-implementation of send() from cfn-response module to make sure we don't rely on importing cfn-response.
+   * @param {*} event
+   * @param {*} context
+   * @param {*} responseStatus
+   * @param {*} responseData
+   * @param {*} physicalResourceId
+   * @param {*} noEcho
+   */
+  async function send(
+    event,
+    context,
+    responseStatus,
+    responseData,
+    physicalResourceId,
+    noEcho
+  ) {
+    var responseBody = JSON.stringify({
+      Status: responseStatus,
+      Reason:
+        "See the details in CloudWatch Log Stream: " + context.logStreamName,
+      PhysicalResourceId: physicalResourceId || context.logStreamName,
+      StackId: event.StackId,
+      RequestId: event.RequestId,
+      LogicalResourceId: event.LogicalResourceId,
+      NoEcho: noEcho || false,
+      Data: responseData,
+    });
 
-      console.log("Response body:\n", responseBody);
+    console.log("Response body:\n", responseBody);
 
-      var parsedUrl = url.parse(event.ResponseURL);
-      var options = {
-        hostname: parsedUrl.hostname,
-        port: 443,
-        path: parsedUrl.path,
-        method: "PUT",
-        headers: {
-          "content-type": "",
-          "content-length": responseBody.length,
-        },
-      };
+    var parsedUrl = url.parse(event.ResponseURL);
+    var options = {
+      hostname: parsedUrl.hostname,
+      port: 443,
+      path: parsedUrl.path,
+      method: "PUT",
+      headers: {
+        "content-type": "",
+        "content-length": responseBody.length,
+      },
+    };
 
-      const sendPromise = new Promise((_res) => {
-        try {
-          var request = https.request(options, function (response) {
-            console.log("Status code: " + response.statusCode);
-            console.log("Status message: " + response.statusMessage);
-            context.done();
-          });
+    const sendPromise = new Promise((res, rej) => {
+      try {
+        var request = https.request(options, function (response) {
+          console.log("Status code: " + response.statusCode);
+          console.log("Status message: " + response.statusMessage);
+          context.done();
+        });
 
-          request.on("error", function (error) {
-            console.log(
-              "send(..) failed executing https.request(..): " + error
-            );
-            context.done();
-          });
+        request.on("error", function (error) {
+          console.log("send(..) failed executing https.request(..): " + error);
+          context.done();
+        });
 
-          request.write(responseBody);
-          request.end();
-        } catch (e) {
-          console.log(e);
-        }
-      });
+        request.write(responseBody);
+        request.end();
+      } catch (e) {
+        console.log(e);
+      }
+    });
 
-      return await sendPromise;
-    }
+    return await sendPromise;
   }
-};
+  }
+}
