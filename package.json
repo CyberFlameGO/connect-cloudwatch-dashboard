@@ -1,8 +1,0 @@
-{
-  "name": "amazon-connect-cloudwatch-dashboard",
-  "version": "1.0.0",
-  "main": "index.mjs",
-  "repository": "https://github.com/voicefoundry-cloud-product/connect-cloudwatch-dashboard.git",
-  "author": "KarlM <80319577+karl-mentzer-vf@users.noreply.github.com>",
-  "license": "MIT"
-}

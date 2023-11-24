@@ -1,22 +1,22 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: Creates an Cloudwatch Dashboard for Amazon Connect for infrastructure
-  management
+Description: Creates Cloudwatch Dashboards for Amazon Connect for infrastructure and
+  capacity planning management
 Metadata:
   AWS::ServerlessRepo::Application:
     Name: amazon-connect-cloudwatch-dashboard
     Description: TTEC Digital developed CloudWatch Dashboard for Amazon Connect
     Author: TTEC Digital - AWS Practice
     SpdxLicenseId: MIT
-    LicenseUrl: s3://vf-sc-templates-ap-southeast-2-699520165046/9f2b51d34175cd1080a68f8980415a91
+    LicenseUrl: s3://aws-sam-cli-managed-default-samclisourcebucket-gdg4fakyy7a0/9f2b51d34175cd1080a68f8980415a91
     SourceCodeUrl: https://github.com/voicefoundry-cloud-public/connect-cloudwatch-dashboard
-    ReadmeUrl: s3://vf-sc-templates-ap-southeast-2-699520165046/48c816f3c69b772017c0f021ce2d7ba7
+    ReadmeUrl: s3://aws-sam-cli-managed-default-samclisourcebucket-gdg4fakyy7a0/fbcc251bf0c12b339ec6830f0388d95c
     Labels:
     - connect
     - iam-role
     - open-source
     - cloudwatch-dashboard
-    SemanticVersion: 1.1.0
+    SemanticVersion: 1.2.0
 Parameters:
   DashboardName:
     Type: String
@@ -74,14 +74,16 @@ Resources:
         Fn::Sub: amazonConnectDashboard_${DashboardName}
       Environment:
         Variables:
-          DASHBOARD_NAME:
-            Ref: DashboardName
+          INFRA_DASHBOARD_NAME:
+            Fn::Sub: ${DashboardName}-infra
+          OPS_DASHBOARD_NAME:
+            Fn::Sub: ${DashboardName}-ops
           INSTANCE_ID:
             Ref: InstanceId
           REGION:
             Ref: AWS::Region
       Timeout: 12
-      CodeUri: s3://vf-sc-templates-ap-southeast-2-699520165046/470e854e59a40f4a62c5aae7e67ef972
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-gdg4fakyy7a0/3e67d86ee966bb8fd553995e237d3374
     Metadata:
       SamResourceId: TheLambda
   LambdaTrigger:
