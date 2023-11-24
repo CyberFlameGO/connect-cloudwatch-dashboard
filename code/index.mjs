@@ -20,6 +20,8 @@
 
 import { ConnectClient, ListQueuesCommand, ListContactFlowsCommand } from "@aws-sdk/client-connect";
 import { CloudWatchClient, PutDashboardCommand } from "@aws-sdk/client-cloudwatch";
+import * as https from "https";
+import * as url from "url";
 
 const connectClient = new ConnectClient();
 const cloudwatchClient = new CloudWatchClient();
