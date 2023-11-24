@@ -98,7 +98,7 @@ const getFlows = async (instanceId) => {
     return flows;
 };
 
-export const handler = async (event) => {
+export const handler = async (event, context) => {
     if (event.RequestType == "Delete") {
         const deleteParams = {
             DashboardNames: event(process.env.DASHBOARD_NAME),
