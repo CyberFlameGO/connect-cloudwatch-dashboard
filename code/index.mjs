@@ -211,10 +211,10 @@ export const handler = async (event, context) => {
                 },
             },
             {
-                height: 6,
+                height: 8,
                 width: 6,
-                y: 6,
-                x: 18,
+                y: 7,
+                x: 12,
                 type: "metric",
                 properties: {
                     view: "timeSeries",
@@ -247,10 +247,10 @@ export const handler = async (event, context) => {
                 },
             },
             {
-                height: 6,
+                height: 8,
                 width: 6,
-                y: 0,
-                x: 12,
+                y: 7,
+                x: 6,
                 type: "metric",
                 properties: {
                     view: "timeSeries",
@@ -304,10 +304,10 @@ export const handler = async (event, context) => {
                 },
             },
             {
-                height: 3,
+                height: 25,
                 width: 12,
-                y: 6,
-                x: 6,
+                y: 15,
+                x: 0,
                 type: "metric",
                 properties: {
                     metrics: queuesTimeTemplate,
@@ -319,10 +319,10 @@ export const handler = async (event, context) => {
                 },
             },
             {
-                height: 3,
+                height: 25,
                 width: 12,
-                y: 9,
-                x: 6,
+                y: 15,
+                x: 12,
                 type: "metric",
                 properties: {
                     view: "singleValue",
@@ -335,8 +335,8 @@ export const handler = async (event, context) => {
                 },
             },
             {
-                height: 6,
-                width: 6,
+                height: 7,
+                width: 12,
                 y: 0,
                 x: 6,
                 type: "metric",
@@ -386,8 +386,8 @@ export const handler = async (event, context) => {
             {
                 height: 3,
                 width: 6,
-                y: 12,
-                x: 12,
+                y: 9,
+                x: 18,
                 type: "metric",
                 properties: {
                     metrics: [
@@ -409,7 +409,7 @@ export const handler = async (event, context) => {
             },
             {
                 type: "metric",
-                x: 6,
+                x: 18,
                 y: 12,
                 width: 6,
                 height: 3,
@@ -435,7 +435,7 @@ export const handler = async (event, context) => {
             {
                 type: "metric",
                 x: 18,
-                y: 12,
+                y: 6,
                 width: 6,
                 height: 3,
                 properties: {
@@ -464,7 +464,7 @@ export const handler = async (event, context) => {
         console.log("Creating infra dashboard");
         await cloudwatchClient.send(
             new PutDashboardCommand({
-                DashboardName: "FANCY-INFRA",
+                DashboardName: process.env.INFRA_DASHBOARD_NAME,
                 DashboardBody: JSON.stringify(dashboardInfraBody),
             })
         );
@@ -661,7 +661,7 @@ export const handler = async (event, context) => {
         console.log("Creating ops dashboard");
         await cloudwatchClient.send(
             new PutDashboardCommand({
-                DashboardName: "FANCY-OPS",
+                DashboardName: process.env.OPS_DASHBOARD_NAME,
                 DashboardBody: JSON.stringify(dashboardOpsBody),
             })
         );

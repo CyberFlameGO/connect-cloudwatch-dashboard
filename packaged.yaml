@@ -83,7 +83,7 @@ Resources:
           REGION:
             Ref: AWS::Region
       Timeout: 12
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-gdg4fakyy7a0/8b6dc3ba6bc08b5715a516e46b632283
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-gdg4fakyy7a0/3e67d86ee966bb8fd553995e237d3374
     Metadata:
       SamResourceId: TheLambda
   LambdaTrigger:
