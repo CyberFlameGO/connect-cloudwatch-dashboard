@@ -459,6 +459,7 @@ export const handler = async (event) => {
     };
 
     try {
+        console.log("Creating infra dashboard");
         await cloudwatchClient.send(
             new PutDashboardCommand({
                 DashboardName: "FANCY-INFRA",
@@ -466,6 +467,7 @@ export const handler = async (event) => {
             })
         );
     } catch (e) {
+      console.log(e);
       await send(event, context, "FAILED");
     }
 
@@ -654,6 +656,7 @@ export const handler = async (event) => {
     };
 
     try {
+        console.log("Creating ops dashboard");
         await cloudwatchClient.send(
             new PutDashboardCommand({
                 DashboardName: "FANCY-OPS",
@@ -661,6 +664,7 @@ export const handler = async (event) => {
             })
         );
     } catch (e) {
+      console.log(e);
       await send(event, context, "FAILED");
     }
 
@@ -702,17 +706,19 @@ export const handler = async (event) => {
             },
         };
 
-        const sendPromise = new Promise((_res) => {
+        const sendPromise = new Promise((_res, _rej) => {
             try {
                 var request = https.request(options, function (response) {
                     console.log("Status code: " + response.statusCode);
                     console.log("Status message: " + response.statusMessage);
                     context.done();
+                    _res();
                 });
 
                 request.on("error", function (error) {
                     console.log("send(..) failed executing https.request(..): " + error);
                     context.done();
+                    _rej();
                 });
 
                 request.write(responseBody);
