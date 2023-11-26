@@ -8,15 +8,15 @@ Metadata:
     Description: TTEC Digital developed CloudWatch Dashboard for Amazon Connect
     Author: TTEC Digital - AWS Practice
     SpdxLicenseId: MIT
-    LicenseUrl: s3://aws-sam-cli-managed-default-samclisourcebucket-gdg4fakyy7a0/9f2b51d34175cd1080a68f8980415a91
+    LicenseUrl: s3://vf-sc-templates-ap-southeast-2-699520165046/9f2b51d34175cd1080a68f8980415a91
     SourceCodeUrl: https://github.com/voicefoundry-cloud-public/connect-cloudwatch-dashboard
-    ReadmeUrl: s3://aws-sam-cli-managed-default-samclisourcebucket-gdg4fakyy7a0/fbcc251bf0c12b339ec6830f0388d95c
+    ReadmeUrl: s3://vf-sc-templates-ap-southeast-2-699520165046/fbcc251bf0c12b339ec6830f0388d95c
     Labels:
     - connect
     - iam-role
     - open-source
     - cloudwatch-dashboard
-    SemanticVersion: 1.2.0
+    SemanticVersion: 1.2.1
 Parameters:
   DashboardName:
     Type: String
@@ -83,7 +83,7 @@ Resources:
           REGION:
             Ref: AWS::Region
       Timeout: 12
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-gdg4fakyy7a0/3e67d86ee966bb8fd553995e237d3374
+      CodeUri: s3://vf-sc-templates-ap-southeast-2-699520165046/5356a40fa70ea8f0ce4e84ed3f6699e2
     Metadata:
       SamResourceId: TheLambda
   LambdaTrigger:

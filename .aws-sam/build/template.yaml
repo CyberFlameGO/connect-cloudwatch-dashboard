@@ -16,7 +16,7 @@ Metadata:
     - iam-role
     - open-source
     - cloudwatch-dashboard
-    SemanticVersion: 1.2.0
+    SemanticVersion: 1.2.1
 Parameters:
   DashboardName:
     Type: String

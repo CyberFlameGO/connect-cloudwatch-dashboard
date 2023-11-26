@@ -103,7 +103,7 @@ const getFlows = async (instanceId) => {
 export const handler = async (event, context) => {
     if (event.RequestType == "Delete") {
         const deleteParams = {
-            DashboardNames: event(process.env.DASHBOARD_NAME),
+            DashboardNames: [process.env.OPS_DASHBOARD_NAME, process.env.INFRA_DASHBOARD_NAME]
         };
 
         try {
